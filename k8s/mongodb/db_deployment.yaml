@@ -20,6 +20,18 @@ spec:
             - name: MONGO_INITDB_ROOT_USERNAME
               value: mongouser
             - name: MONGO_INITDB_ROOT_PASSWORD
-              value: mongopwd         
+              value: mongopwd
 
-        
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-service
+spec:
+  selector:
+    app: mongodb
+  ports:
+    - port: 27017
+      targetPort: 27017
+  type: ClusterIP

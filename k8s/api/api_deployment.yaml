@@ -3,29 +3,24 @@ kind: Deployment
 metadata:
   name: api
 spec:
-  replicas: 20
   selector:
     matchLabels:
       app: api
   template:
-    metadata:  
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/path: /metrics
-        prometheus.io/port: "8080"        
+    metadata:
       labels:
         app: api
     spec:
       containers:
         - name: api
-          image: fabricioveronez/api-bootcamp-produto           
-          ports: 
+          image: vrcunha/api-produto:v2
+          ports:
           - containerPort: 8080
-          env: 
+          env:
           - name: MONGODB_URI
             value: mongodb://mongouser:mongopwd@mongodb-service:27017/admin
 
---- 
+---
 
 apiVersion: v1
 kind: Service
@@ -36,6 +31,6 @@ spec:
     app: api
   ports:
     - port: 80
-      targetPort: 8080   
-      nodePort: 30000   
-  type: LoadBalancer
+      targetPort: 8080
+      nodePort: 30000
+  type: NodePort
